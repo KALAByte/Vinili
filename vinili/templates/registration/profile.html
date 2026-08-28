@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="catalog-container profile-page">
+    <h2 class="section-title">I miei dati</h2>
+    <div class="profile-grid">
+        
+        <aside class="profile-sidebar">
+            <div class="user-card">
+                <div class="avatar-container">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h2>{{ user.username }}</h2>
+                
+                <div class="user-details">
+                    <p><strong>Nome:</strong> {{ user.first_name }}</p>
+                    <p><strong>Cognome:</strong> {{ user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Telefono:</strong> {{ user.profile.telefono|default:"Non inserito" }}</p>
+                    <p><strong>Membro dal:</strong> {{ user.date_joined|date:"d/m/Y" }}</p>
+                </div>
+
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">DISCONNETTI</button>
+                </form>
+            </div>
+        </aside>
+
+        <div class="profile-main-content">
+            
+            <section class="profile-section">
+                <a href="{% url 'carrello' %}" style="text-decoration: none; color: inherit; display: block;">
+                    <h3 class="section-subtitle" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <span><i class="fas fa-shopping-cart"></i> Il mio Carrello</span>
+                        <i class="fas fa-chevron-right" style="font-size: 0.9rem; color: var(--accent-color);"></i>
+                    </h3>
+                </a>
+                <div class="section-inner">
+                    {% for item in carrello_items %}
+                        <div class="mini-card-profile" style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px; padding: 10px; border-bottom: 1px solid #eee;">
+                            <img src="{{ item.vinile.copertina.url }}" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                            <div>
+                                <strong>{{ item.vinile.titolo }}</strong>
+                                <p style="margin: 0; font-size: 0.85rem; color: #666;">Quantità: {{ item.qta }} - € {{ item.vinile.prezzo }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="empty-text">Il tuo carrello è attualmente vuoto.</p>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'home' %}" class="btn btn-outline" style="margin-top: 10px; display: inline-block;">VAI ALLO SHOP</a>
+            </section>
+
+            <section class="profile-section">
+                <a href="{% url 'wishlist' %}" style="text-decoration: none; color: inherit; display: block;">
+                    <h3 class="section-subtitle" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                        <span><i class="fas fa-heart"></i> Lista dei desideri</span>
+                        <i class="fas fa-chevron-right" style="font-size: 0.9rem; color: var(--accent-color);"></i>
+                    </h3>
+                </a>
+                <div class="section-inner">
+                    {% for item in wishlist_items %}
+                        <div class="mini-card-profile" style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px; padding: 10px; border-bottom: 1px solid #eee;">
+                            <img src="{{ item.vinile.copertina.url }}" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                            <div>
+                                <strong>{{ item.vinile.titolo }}</strong>
+                                <p style="margin: 0; font-size: 0.85rem; color: #666;">{{ item.vinile.autore }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="empty-text">Non hai ancora salvato nessun vinile.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+    <h1>Ritmo Sanchez</h1>
+    <p>Selezioni in vinile per palati fini.</p>
+</section>
+
+<main class="catalog-container">
+    
+    <!-- Ricerca -->
+    {% if query %}
+        <section class="catalog-section">
+            <h2 class="section-title">Risultati per "{{ query }}"</h2>
+            <div class="grid">
+                {% for disco in selezione %}
+                    <div class="card">
+                        <img src="{{ disco.copertina.url }}" alt="{{ disco.titolo }}">
+                        <div class="card-content">
+                            <h3>{{ disco.titolo }}</h3>
+                            <p>{{ disco.autore }}</p>
+                            <div class="price">€ {{ disco.prezzo }}</div>
+                            <div class="card-actions-group">
+                                <a href="{% url 'dettaglio_vinile' disco.id %}" class="btn">Dettaglio</a>
+                                <a href="{% url 'aggiungi_wishlist' disco.id %}" class="btn-icon-action">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nessun vinile trovato per la tua ricerca.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+    {% else %}
+
+    <!-- Trend -->
+        <section class="catalog-section">
+            <h2 class="section-title">Trending Now</h2>
+            <div class="grid">
+                {% for disco in trending %}
+                    <div class="card">
+                        <img src="{{ disco.copertina.url }}" alt="{{ disco.titolo }}">
+                        <div class="card-content">
+                            <h3>{{ disco.titolo }}</h3>
+                            <p>{{ disco.autore }}</p>
+                            <div class="price">€ {{ disco.prezzo }}</div>
+                            <div class="card-actions-group">
+                                <a href="{% url 'dettaglio_vinile' disco.id %}" class="btn">Dettaglio</a>
+                                <a href="{% url 'aggiungi_wishlist' disco.id %}" class="btn-icon-action">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Selezione -->
+        <section class="catalog-section">
+            <h2 class="section-title">La nostra Selezione</h2>
+            <div class="grid">
+                {% for disco in selezione %}
+                    <div class="card">
+                        <img src="{{ disco.copertina.url }}" alt="{{ disco.titolo }}">
+                        <div class="card-content">
+                            <h3>{{ disco.titolo }}</h3>
+                            <p>{{ disco.autore }}</p>
+                            <div class="price">€ {{ disco.prezzo }}</div>
+                            <div class="card-actions-group">
+                                <a href="{% url 'dettaglio_vinile' disco.id %}" class="btn">Dettaglio</a>
+                                <a href="{% url 'aggiungi_wishlist' disco.id %}" class="btn-icon-action">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Catalogo completo -->
+        <section class="catalog-section">
+            <h2 class="section-title">Catalogo Completo</h2>
+            
+            <div class="grid">
+                {% for disco in tutti_i_vinili %}
+                    <div class="card">
+                        <img src="{{ disco.copertina.url }}" alt="{{ disco.titolo }}">
+                        <div class="card-content">
+                            <h3>{{ disco.titolo }}</h3>
+                            <p>{{ disco.autore }}</p>
+                            <div class="price">€ {{ disco.prezzo }}</div>
+                            <div class="card-actions-group">
+                                <a href="{% url 'dettaglio_vinile' disco.id %}" class="btn">Dettaglio</a>
+                                <a href="{% url 'aggiungi_wishlist' disco.id %}" class="btn-icon-action">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+</main>
+{% endblock %}

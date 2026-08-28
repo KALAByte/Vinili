@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="catalog-container">
+    <section class="catalog-section">
+        <div class="detail-grid"> 
+            
+            <div class="detail-img-container">
+                <img src="{{ vinile.copertina.url }}" alt="{{ vinile.titolo }}" class="detail-img">
+            </div>
+
+            <div class="detail-info-container">
+                <h1>{{ vinile.titolo }}</h1>
+                <p>di {{ vinile.autore }}</p>
+                
+                <div class="specs-box">
+                    <p><strong>Genere:</strong> 
+                        {% for g in vinile.generi.all %}
+                            {{ g.nome }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Non specificato
+                        {% endfor %}
+                    </p>
+                    <p><strong>Formato:</strong> 
+                        {% for f in vinile.formati.all %}
+                            {{ f.nome }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            Non specificato
+                        {% endfor %}
+                    </p>
+                    <p><strong>Anno:</strong> {{ vinile.anno_pubblicazione }}</p>
+                    <p><strong>Prezzo:</strong> € {{ vinile.prezzo }}</p>
+                </div>
+
+                <div class="detail-actions">
+                    <a href="{% url 'aggiungi_carrello' vinile.id %}" class="btn btn-full">AGGIUNGI AL CARRELLO</a>
+                    
+                    <div class="btn-group-row">
+                        <a href="{% url 'aggiungi_wishlist' vinile.id %}" class="btn btn-sub"> AGGIUNGI ALLA WISHLIST</a>
+                        <a href="{% url 'home' %}" class="btn btn-sub">TORNA HOME</a>
+                    </div>
+                </div>
+            </div>
+            <div class="product-description">
+                <h2 class="section-subtitle">Descrizione</h2>
+                <p>{{ vinile.descrizione}}</p>
+            </div>
+            <div class="tracklist-section">
+                <h3>Tracklist</h3>
+                <ul>
+                    {% for brano in vinile.brani.all %}
+                        <li><strong>{{ brano.posizione }}</strong> - {{ brano.titolo }} ({{ brano.durata }})</li>
+                    {% empty %}
+                        <li>Nessun brano inserito per questo disco.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

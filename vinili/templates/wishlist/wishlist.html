@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="catalog-container">
+    <section class="catalog-section">
+        <h2 class="section-title">I miei desideri</h2>
+        
+        <div class="grid">
+            {% for item in wishlist_items %}
+                <article class="card">
+                    <img src="{{ item.vinile.copertina.url }}" alt="{{ item.vinile.titolo }}">
+                    <div class="card-content">
+                        <h3>{{ item.vinile.titolo }}</h3>
+                        <p>{{ item.vinile.autore }}</p>
+                        <p class="price">€ {{ item.vinile.prezzo }}</p>
+                        
+                        <div class="card-actions-group">
+                            <a href="{% url 'dettaglio_vinile' item.vinile.id %}" class="btn">Dettaglio</a>
+                            <a href="{% url 'rimuovi_wishlist' item.id %}" class="btn-icon-action">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <p class="empty-message">Non hai ancora salvato vinili nella wishlist.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

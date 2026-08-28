@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="catalog-container">
+    <section class="catalog-section">
+        <h2 class="section-title">Il tuo Carrello</h2>
+        
+        <div class="login-box wide-box"> 
+            {% if elementi %}
+                <table class="cart-table">
+                    <thead>
+                        <tr class="cart-row">
+                            <th class="cart-cell">Prodotto</th>
+                            <th class="cart-cell">Quantità</th>
+                            <th class="cart-cell">Prezzo</th>
+                            <th class="cart-cell">Azioni</th> </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in elementi %}
+                        <tr class="cart-row">
+                            <td class="cart-cell">
+                                <div class="cart-product">
+                                    <img src="{{ item.vinile.copertina.url }}" alt="{{ item.vinile.titolo }}" class="cart-img">
+                                    <div class="cart-info">
+                                        <strong>{{ item.vinile.titolo }}</strong>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary);">{{ item.vinile.autore }}</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="cart-cell">x{{ item.qta }}</td>
+
+                            <td class="cart-cell">€ {{ item.vinile.prezzo }}</td>
+
+                            <td class="cart-cell">
+                                <div class="cart-actions-row">
+                                    <a href="{% url 'aggiungi_wishlist' item.vinile.id %}" class="btn-icon-action wishlist-btn" title="Sposta in Wishlist">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+
+                                    <a href="{% url 'rimuovi_carrello' item.id %}" class="btn-icon-action delete-btn" title="Rimuovi dal carrello">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="cart-summary">
+                    <p>
+                        <span class="total-label">TOTALE ORDINE</span>
+                        <span class="total-amount accent-text">€ {{ totale }}</span>
+                    </p>
+                    <div class="logout-form">
+                        <button class="btn btn-danger">PROCEDI AL PAGAMENTO</button>
+                        <a href="{% url 'home' %}" class="btn btn-outline">CONTINUA SHOPPING</a>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="empty-cart-container">
+                    <div class="empty-icon"><i class="fas fa-shopping-basket"></i></div>
+                    <p>Nessun articolo presente nel carrello</p>
+                    <br>
+                    <a href="{% url 'home' %}" class="btn">CERCA VINILI</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}
