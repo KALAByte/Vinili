@@ -1,0 +1,25 @@
+# Ignora i file segreti delle password
+.env
+
+# Ignora l'ambiente virtuale di Django
+.venv/
+*venv/
+AV_Django/
+
+# Ignora il database locale di test (gli admin e i vinili salvati sul PC)
+db.sqlite3
+*.sqlite3
+
+# Ignora la cartella delle immagini dei vinili caricate dall'admin
+media/
+uploads/
+
+# Ignora la cache di Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignora i file temporanei di OneDrive e Windows
+Thumbs.db
+Desktop.ini
+.DS_Store
